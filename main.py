@@ -9,9 +9,9 @@ urls = (
 )
 
 
-class Handle(object):
-    def GET(self):
-        return "hello, this is handle view"
+# class Handle(object):
+#     def GET(self):
+#         return "hello, this is handle view"
 
 
 if __name__ == '__main__':

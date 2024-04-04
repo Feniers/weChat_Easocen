@@ -4,11 +4,11 @@
 import hashlib
 import web
 
-
 class Handle(object):
     def GET(self):
         try:
             data = web.input()
+            print("Received data: ", data)  # 输出接收到的请求内容
             if len(data) == 0:
                 return "hello, this is handle view"
             signature = data.signature
