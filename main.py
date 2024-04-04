@@ -8,7 +8,6 @@ urls = (
     '/wx', 'Handle',
 )
 
-
 # class Handle(object):
 #     def GET(self):
 #         return "hello, this is handle view"

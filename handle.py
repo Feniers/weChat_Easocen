@@ -8,7 +8,7 @@ class Handle(object):
     def GET(self):
         try:
             data = web.input()
-            print("Received data: ", data)  # 输出接收到的请求内容
+            # print("Received data: ", data)  # 输出接收到的请求内容
             if len(data) == 0:
                 return "hello, this is handle view"
             signature = data.signature
@@ -20,12 +20,17 @@ class Handle(object):
             list = [token, timestamp, nonce]
             list.sort()
             sha1 = hashlib.sha1()
-            map(sha1.update, list)
+            # map(sha1.update, list)
+
+            # 对列表中的每个元素进行散列更新
+            for param in list:
+                sha1.update(param.encode('utf-8'))  # 将字符串转换为字节串并进行更新
+
             hashcode = sha1.hexdigest()
-            print("handle/GET func: hashcode, signature: ", hashcode, signature)
+            print("handle/GET func: ", hashcode, signature)
             if hashcode == signature:
                 return echostr
             else:
-                return ""
+                return "error"
         except Exception as Argument:
             return Argument
