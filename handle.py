@@ -3,8 +3,7 @@
 
 import hashlib
 import web
-
-from WeChat_Easocen import receive, reply
+import receive, reply
 
 
 class Handle(object):
