@@ -2,8 +2,8 @@
 # filename: receive.py
 import xml.etree.ElementTree as ET
 
-
 def parse_xml(web_data):
+    print('web_data: ',web_data)
     if len(web_data) == 0:
         return None
     xmlData = ET.fromstring(web_data)
@@ -12,6 +12,8 @@ def parse_xml(web_data):
         return TextMsg(xmlData)
     elif msg_type == 'image':
         return ImageMsg(xmlData)
+    elif msg_type == 'event':
+        return EventMsg(xmlData)
 
 
 class Msg(object):
@@ -26,11 +28,17 @@ class Msg(object):
 class TextMsg(Msg):
     def __init__(self, xmlData):
         Msg.__init__(self, xmlData)
-        self.Content = xmlData.find('Content').text.encode("utf-8")
-
+        # self.Content = xmlData.find('Content').text.encode("utf-8")
+        self.Content = xmlData.find('Content').text
 
 class ImageMsg(Msg):
     def __init__(self, xmlData):
         Msg.__init__(self, xmlData)
         self.PicUrl = xmlData.find('PicUrl').text
         self.MediaId = xmlData.find('MediaId').text
+
+class EventMsg(Msg):
+    def __init__(self,xmlData):
+        Msg.__init__(self, xmlData)
+        self.Event = xmlData.find('Event').text
+        self.EventKey = xmlData.find('EventKey').text

@@ -20,7 +20,6 @@ class Media(object):
             accessToken, mediaType)
         request = urllib2.Request(postUrl, postData, postHeaders)
         urlResp = urllib2.urlopen(request)
-        print
         urlResp.read()
 
 

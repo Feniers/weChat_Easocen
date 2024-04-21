@@ -4,6 +4,7 @@
 import hashlib
 import web
 import receive, reply
+from db import Service
 
 
 class Handle(object):
@@ -40,28 +41,46 @@ class Handle(object):
     def POST(self):
         try:
             webData = web.data()
-            print("Handle Post webdata is ", webData)
+            # print("Handle Post webdata is ", webData)
             # 后台打日志
             recMsg = receive.parse_xml(webData)
             if isinstance(recMsg, receive.Msg):
                 # 获取传入
                 toUser = recMsg.FromUserName
                 fromUser = recMsg.ToUserName
+                service = Service(recMsg)
 
                 if recMsg.MsgType == 'text':
-                    textMsg = receive.TextMsg(recMsg)
-                    content = textMsg.Content
-                    replyMsg = reply.TextMsg(toUser, fromUser, content)
+                    replyMsg = reply.TextMsg(toUser, fromUser, service.operate())
                     return replyMsg.send()
 
-                if recMsg.MsgType == 'image':
+                elif recMsg.MsgType == 'image':
                     mediaId = recMsg.MediaId
                     replyMsg = reply.ImageMsg(toUser, fromUser, mediaId)
                     return replyMsg.send()
+                elif recMsg.MsgType == 'event':
+                    if recMsg.Event == 'subscribe':
+                        service.subscribe(recMsg)
+                        content = "欢迎关注EasocenAdonis的公众号，我们将为您提供最新的信息\n" \
+                                  "回复以下关键字获取相关信息\n" \
+                                  "1.全部offer：获取所有offer信息，超过十条时只显示十条\n" \
+                                  "2.分页查询：分页查询offer信息，示例：分页查询 1 10\n" \
+                                  "3.参数查询：获取符合条件的offer信息\n" \
+                                  "   示例：参数查询 公司=字节跳动\n" \
+                                  "4.详情：获取招聘信息详情，后跟uuid\n" \
+                                  "   示例：详情 fe26eb04-24a4-4755-b223-c88251b454a3\n" \
+                                  "5.创建offer：创建offer信息,单个用户限定上限十条\n" \
+                                  "   示例：创建offer 公司=字节跳动 公司ID=1 城市=北京 职位=Java开发工程师 UUID=1\n" \
+                                  "6.更新offer：更新offer信息\n" \
+                                  "   示例：更新offer 公司=字节跳动 公司ID=1 城市=北京 职位=Java开发工程师 UUID=1\n" \
+                                  "7.删除offer：删除offer信息,后跟uuid\n" \
+                                  "   示例：删除offer 1\n"
+                        replyMsg = reply.TextMsg(toUser, fromUser, content)
+                        return replyMsg.send()
                 else:
                     return reply.Msg().send()
             else:
                 print("暂且不处理")
-                return "success"
-        except Exception as Argment:
-            return Argment
+                return "success "
+        except Exception as Argument:
+            return Argument

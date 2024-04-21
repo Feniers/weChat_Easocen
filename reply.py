@@ -18,6 +18,7 @@ class TextMsg(Msg):
         self.__dict['FromUserName'] = fromUserName
         self.__dict['CreateTime'] = int(time.time())
         self.__dict['Content'] = content
+        print("reply: ",content)
 
     def send(self):
         XmlForm = """
