@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: APIwork3
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/apiwork3
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+server:
+  port: 9090
+
+management:
+  endpoints:
+    web.exposure.include: "metrics, health, info"
