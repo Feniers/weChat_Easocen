@@ -48,9 +48,10 @@
 
 2. 数据库SQL+Data
 
-    student.sql <BR>
+    /exSource/student.sql <BR>
    数据生成使用navicat自动生成十万条数据
-```    /*
+```    
+/*
 Navicat Premium Data Transfer
 
 Source Server         : Mysql
@@ -108,9 +109,9 @@ PRIMARY KEY (`id`) USING BTREE
 
 5. 自动脚本
 
-    脚本使用python编写，见test_api.py
+    脚本使用python编写，见/exSource/test_api.py
     
-    运行结果见output.txt
+    运行结果见/exSource/output.txt
     
     结合qps监测与脚本成功率监测可知：
         
